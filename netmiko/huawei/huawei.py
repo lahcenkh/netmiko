@@ -120,15 +120,17 @@ class HuaweiTelnet(HuaweiBase):
         self,
         pri_prompt_terminator: str = r"]\s*$",
         alt_prompt_terminator: str = r">\s*$",
-        username_pattern: str = r"(?:user:|username|login|user name)",
-        pwd_pattern: str = r"assword",
+        username_pattern: str = r"(?:user:|username|Username:|login|user name)",
+        pwd_pattern: str = r"Password:",
         delay_factor: float = 1.0,
         max_loops: int = 20,
     ) -> str:
         """Telnet login for Huawei Devices"""
 
         delay_factor = self.select_delay_factor(delay_factor)
-        password_change_prompt = r"(?:Change now|Please choose 'YES' or 'NO').+"
+        #password_change_prompt = r"(?:Change now|Please choose 'YES' or 'NO').+"
+        # reading this change password problem
+        password_change_prompt = r"Change now\? \[Y/N\]"
         combined_pattern = r"({}|{}|{})".format(
             pri_prompt_terminator, alt_prompt_terminator, password_change_prompt
         )
